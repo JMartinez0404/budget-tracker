@@ -87,6 +87,24 @@ export function NewMonthRollover({
         is_recurring: boolean;
       }> = [];
 
+      // Get the buffer amount total from current month to carry over as income
+      const bufferCat = categories.find(c => c.name === 'Buffer Amount');
+      const bufferTotal = bufferCat ? Math.abs(bufferCat.total) : 0;
+      const incomeCat = categories.find(c => c.name === 'Income');
+
+      // Add buffer carryover as an Income transaction in the next month
+      if (bufferTotal > 0 && incomeCat) {
+        inserts.push({
+          user_id: userId,
+          category_id: incomeCat.id,
+          month: nextMonthKey,
+          name: 'Buffer amount',
+          transaction_date: `${next.year}-${String(next.month).padStart(2, '0')}-01`,
+          amount: bufferTotal,
+          is_recurring: true,
+        });
+      }
+
       for (const cat of rolloverCats) {
         if (cat.name === 'Savings' && cat.transactions.length === 0) {
           // If no savings transactions exist, create defaults
