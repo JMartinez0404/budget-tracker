@@ -7,6 +7,7 @@ import { useAuth } from '@/lib/hooks/useAuth';
 import { useTransactions } from '@/lib/hooks/useTransactions';
 import { MonthPicker } from '@/components/layout/MonthPicker';
 import { TransactionTable } from '@/components/transactions/TransactionTable';
+import { NewMonthRollover } from '@/components/transactions/NewMonthRollover';
 
 function formatCurrency(amount: number): string {
   return new Intl.NumberFormat('en-US', {
@@ -31,6 +32,7 @@ function MonthlyContent({ yearMonth }: { yearMonth: string }) {
     addTransaction,
     updateTransaction,
     deleteTransaction,
+    refresh,
   } = useTransactions(user?.id, monthKey);
 
   const handleMonthChange = (y: number, m: number) => {
@@ -88,6 +90,17 @@ function MonthlyContent({ yearMonth }: { yearMonth: string }) {
           onAdd={addTransaction}
           onUpdate={updateTransaction}
           onDelete={deleteTransaction}
+        />
+      )}
+
+      {/* Rollover to next month */}
+      {categoriesWithTransactions.length > 0 && (
+        <NewMonthRollover
+          userId={user.id}
+          currentYear={year}
+          currentMonth={month}
+          categories={categoriesWithTransactions}
+          onComplete={refresh}
         />
       )}
     </div>
