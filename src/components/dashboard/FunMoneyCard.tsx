@@ -14,14 +14,24 @@ function formatCurrency(amount: number): string {
   }).format(amount);
 }
 
-export function FunMoneyCard({ categories }: FunMoneyCardProps) {
-  const available = categories.find(c => c.name === 'Available Fun Money');
-  const spent = categories.find(c => c.name === "Joel's Fun Spending");
-  const leftover = categories.find(c => c.name === 'Leftover Fun Money');
+// Categories that come before the fun money section
+const PRE_FUN_CATEGORIES = [
+  'Income', 'Bills', 'Gas', 'Groceries', 'Restaurants',
+  'Other', 'Vanguard', 'Unexpected Expenses', 'Savings', 'Buffer Amount',
+];
 
-  const availableTotal = Math.abs(available?.total ?? 0);
-  const spentTotal = Math.abs(spent?.total ?? 0);
-  const leftoverTotal = leftover?.total ?? 0;
+export function FunMoneyCard({ categories }: FunMoneyCardProps) {
+  // Available Fun Money = net of all categories before the fun section
+  const availableTotal = categories
+    .filter(c => PRE_FUN_CATEGORIES.includes(c.name))
+    .reduce((sum, c) => sum + c.total, 0);
+
+  // Fun Spending = total from Joel's Fun Spending category
+  const spentCat = categories.find(c => c.name === "Joel's Fun Spending");
+  const spentTotal = Math.abs(spentCat?.total ?? 0);
+
+  // Leftover = Available - Spent
+  const leftoverTotal = availableTotal - spentTotal;
 
   const pct = availableTotal > 0 ? Math.min((spentTotal / availableTotal) * 100, 100) : 0;
 

@@ -10,8 +10,11 @@ import type { CategoryWithTransactions } from '@/lib/types';
 // Categories that get rolled over to the next month
 const ROLLOVER_CATEGORIES = ['Income', 'Bills', 'Vanguard', 'Savings', 'Buffer Amount'];
 
-// Default savings amount for new months
-const DEFAULT_SAVINGS_TOTAL = -1500;
+// Categories used to compute Available Fun Money (everything before the fun section)
+const PRE_FUN_CATEGORIES = [
+  'Income', 'Bills', 'Gas', 'Groceries', 'Restaurants',
+  'Other', 'Vanguard', 'Unexpected Expenses', 'Savings', 'Buffer Amount',
+];
 
 interface NewMonthRolloverProps {
   userId: string;
@@ -102,6 +105,27 @@ export function NewMonthRollover({
           transaction_date: `${next.year}-${String(next.month).padStart(2, '0')}-01`,
           amount: bufferTotal,
           is_recurring: true,
+        });
+      }
+
+      // Carry over leftover fun money to next month's Fun Spending
+      // Available Fun Money = net of all pre-fun categories
+      const availableFun = categories
+        .filter(c => PRE_FUN_CATEGORIES.includes(c.name))
+        .reduce((sum, c) => sum + c.total, 0);
+      const funSpentCat = categories.find(c => c.name === "Joel's Fun Spending");
+      const funSpentTotal = Math.abs(funSpentCat?.total ?? 0);
+      const leftoverFun = availableFun - funSpentTotal;
+
+      if (funSpentCat && leftoverFun !== 0) {
+        inserts.push({
+          user_id: userId,
+          category_id: funSpentCat.id,
+          month: nextMonthKey,
+          name: "Joel's Fun Money debt from last month",
+          transaction_date: `${next.year}-${String(next.month).padStart(2, '0')}-01`,
+          amount: leftoverFun, // positive = surplus, negative = debt
+          is_recurring: false,
         });
       }
 
