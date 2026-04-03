@@ -22,13 +22,29 @@ const PRE_FUN_CATEGORIES = [
 
 export function FunMoneyCard({ categories }: FunMoneyCardProps) {
   // Available Fun Money = net of all categories before the fun section
-  const availableTotal = categories
+  const baseAvailable = categories
     .filter(c => PRE_FUN_CATEGORIES.includes(c.name))
     .reduce((sum, c) => sum + c.total, 0);
 
-  // Fun Spending = total from Joel's Fun Spending category
+  // Separate carryover from actual spending in Fun Spending category
   const spentCat = categories.find(c => c.name === "Joel's Fun Spending");
-  const spentTotal = Math.abs(spentCat?.total ?? 0);
+  const funTxns = spentCat?.transactions ?? [];
+
+  // Carryover = positive entries (surplus from last month adds to available)
+  const carryover = funTxns
+    .filter(t => t.name.toLowerCase().includes('debt from last month') || t.name.toLowerCase().includes('leftover'))
+    .reduce((sum, t) => sum + Number(t.amount), 0);
+
+  // Actual spending = everything else in Fun Spending (negative amounts)
+  const actualSpending = funTxns
+    .filter(t => !t.name.toLowerCase().includes('debt from last month') && !t.name.toLowerCase().includes('leftover'))
+    .reduce((sum, t) => sum + Number(t.amount), 0);
+
+  // Available = base + carryover (positive carryover increases budget)
+  const availableTotal = baseAvailable + carryover;
+
+  // Spent = absolute value of actual spending
+  const spentTotal = Math.abs(actualSpending);
 
   // Leftover = Available - Spent
   const leftoverTotal = availableTotal - spentTotal;
