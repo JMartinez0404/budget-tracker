@@ -85,12 +85,27 @@ export async function POST(request: NextRequest) {
     const targetYear = parseInt(targetParts[0]);
     const targetMo = parseInt(targetParts[1]);
 
-    // Delete existing target month transactions
-    await supabase
+    // Get existing target month transactions so we don't overwrite them
+    const { data: existingTxns } = await supabase
       .from('transactions')
-      .delete()
+      .select('*')
       .eq('user_id', user.id)
       .eq('month', targetMonth);
+
+    // Build a set of existing transaction names+categories to avoid duplicates
+    const existingKeys = new Set(
+      (existingTxns || []).map(t => `${t.category_id}:${t.name}`)
+    );
+
+    // Only delete carryover items that we'll re-create (buffer income, fun debt)
+    // Leave all other existing transactions untouched
+    const carryoverNames = ['Buffer amount', "Joel's Fun Money debt from last month"];
+    for (const txn of (existingTxns || [])) {
+      if (carryoverNames.includes(txn.name)) {
+        await supabase.from('transactions').delete().eq('id', txn.id);
+        existingKeys.delete(`${txn.category_id}:${txn.name}`);
+      }
+    }
 
     const inserts: Array<{
       user_id: string;
@@ -135,10 +150,17 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    // 3. Copy rollover categories
+    // 3. Copy rollover categories — skip if target month already has items for that category
     for (const catName of ROLLOVER_CATEGORIES) {
       const cat = categoryMap[catName];
       if (!cat) continue;
+
+      // Check if target month already has transactions for this category
+      const targetHasCategory = (existingTxns || []).some(
+        t => t.category_id === cat.id && !carryoverNames.includes(t.name)
+      );
+      if (targetHasCategory) continue; // Don't overwrite existing data
+
       const txns = catTxns[catName] || [];
 
       if (catName === 'Savings' && txns.length === 0) {

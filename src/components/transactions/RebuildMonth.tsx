@@ -82,10 +82,10 @@ export function RebuildMonth({
       </CardHeader>
       <CardContent>
         <p className="text-xs text-zinc-500 mb-3">
-          Rebuild <span className="text-white font-medium">{MONTH_NAMES[targetMonth]} {targetYear}</span> from{' '}
-          <span className="text-white font-medium">{MONTH_NAMES[sourceMonth]} {sourceYear}</span> with
-          correct buffer carryover, fun money leftover, and recurring items.
-          This will <span className="text-amber-400">replace</span> all existing data for the target month.
+          Add carryovers to <span className="text-white font-medium">{MONTH_NAMES[targetMonth]} {targetYear}</span> from{' '}
+          <span className="text-white font-medium">{MONTH_NAMES[sourceMonth]} {sourceYear}</span>:
+          buffer as income, fun money leftover, and any missing recurring items.
+          Your existing expenses <span className="text-emerald-400">won&apos;t be touched</span>.
         </p>
 
         <Button onClick={handleRebuild} disabled={loading} variant="outline" className="w-full">

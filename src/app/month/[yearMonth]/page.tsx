@@ -7,6 +7,7 @@ import { useAuth } from '@/lib/hooks/useAuth';
 import { useTransactions } from '@/lib/hooks/useTransactions';
 import { MonthPicker } from '@/components/layout/MonthPicker';
 import { TransactionTable } from '@/components/transactions/TransactionTable';
+import { FunMoneyCard } from '@/components/dashboard/FunMoneyCard';
 import { NewMonthRollover } from '@/components/transactions/NewMonthRollover';
 import { RebuildMonth } from '@/components/transactions/RebuildMonth';
 
@@ -77,7 +78,10 @@ function MonthlyContent({ yearMonth }: { yearMonth: string }) {
         </div>
       </div>
 
-      {/* Transaction categories */}
+      {/* Fun Money Summary - auto-calculated */}
+      <FunMoneyCard categories={categoriesWithTransactions} />
+
+      {/* Transaction categories - hide auto-calculated ones */}
       {categoriesWithTransactions.length === 0 ? (
         <div className="text-center py-12 text-zinc-500">
           <p className="text-sm">No data for this month.</p>
@@ -85,7 +89,9 @@ function MonthlyContent({ yearMonth }: { yearMonth: string }) {
         </div>
       ) : (
         <TransactionTable
-          categories={categoriesWithTransactions}
+          categories={categoriesWithTransactions.filter(
+            c => !['Available Fun Money', 'Leftover Fun Money'].includes(c.name)
+          )}
           month={monthKey}
           userId={user.id}
           onAdd={addTransaction}
