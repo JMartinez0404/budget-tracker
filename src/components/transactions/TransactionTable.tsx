@@ -186,7 +186,7 @@ export function TransactionTable({
                           <span className={`text-sm font-medium ${txn.amount >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
                             {formatCurrency(txn.amount)}
                           </span>
-                          <div className="opacity-0 group-hover:opacity-100 flex gap-1 transition-opacity">
+                          <div className="md:opacity-0 md:group-hover:opacity-100 flex gap-1 transition-opacity">
                             <Button
                               variant="ghost"
                               size="icon"
