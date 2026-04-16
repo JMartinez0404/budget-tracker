@@ -2,6 +2,7 @@
 
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from 'recharts';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useTheme } from '@/components/layout/ThemeProvider';
 import type { CategoryWithTransactions } from '@/lib/types';
 
 const COLORS = [
@@ -28,7 +29,23 @@ function formatCurrency(amount: number): string {
   }).format(amount);
 }
 
+function useChartColors() {
+  const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme === 'dark';
+  return {
+    tooltip: {
+      background: isDark ? '#18181b' : '#ffffff',
+      border: `1px solid ${isDark ? '#3f3f46' : '#d4d4d8'}`,
+      borderRadius: '8px',
+      color: isDark ? '#fff' : '#09090b',
+    },
+    legendText: isDark ? '#a1a1aa' : '#52525b',
+    barTrack: isDark ? 'bg-zinc-800' : 'bg-zinc-200',
+  };
+}
+
 export function SpendingDonutChart({ categories }: SpendingChartProps) {
+  const colors = useChartColors();
   const data = categories
     .filter(c => SPENDING_CATEGORIES.includes(c.name) && c.total !== 0)
     .map(c => ({
@@ -39,9 +56,9 @@ export function SpendingDonutChart({ categories }: SpendingChartProps) {
 
   if (data.length === 0) {
     return (
-      <Card className="bg-zinc-900 border-zinc-800">
+      <Card className="bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800">
         <CardHeader className="pb-2">
-          <CardTitle className="text-sm font-medium text-zinc-400">Spending Breakdown</CardTitle>
+          <CardTitle className="text-sm font-medium text-zinc-600 dark:text-zinc-400">Spending Breakdown</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="h-48 flex items-center justify-center text-zinc-500 text-sm">
@@ -53,9 +70,9 @@ export function SpendingDonutChart({ categories }: SpendingChartProps) {
   }
 
   return (
-    <Card className="bg-zinc-900 border-zinc-800">
+    <Card className="bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800">
       <CardHeader className="pb-2">
-        <CardTitle className="text-sm font-medium text-zinc-400">Spending Breakdown</CardTitle>
+        <CardTitle className="text-sm font-medium text-zinc-600 dark:text-zinc-400">Spending Breakdown</CardTitle>
       </CardHeader>
       <CardContent>
         <ResponsiveContainer width="100%" height={280}>
@@ -74,17 +91,12 @@ export function SpendingDonutChart({ categories }: SpendingChartProps) {
               ))}
             </Pie>
             <Tooltip
-              contentStyle={{
-                background: '#18181b',
-                border: '1px solid #3f3f46',
-                borderRadius: '8px',
-                color: '#fff',
-              }}
+              contentStyle={colors.tooltip}
               formatter={(value) => formatCurrency(Number(value))}
             />
             <Legend
               iconSize={8}
-              wrapperStyle={{ color: '#a1a1aa', fontSize: '12px' }}
+              wrapperStyle={{ color: colors.legendText, fontSize: '12px' }}
             />
           </PieChart>
         </ResponsiveContainer>
@@ -94,6 +106,7 @@ export function SpendingDonutChart({ categories }: SpendingChartProps) {
 }
 
 export function CategoryBarChart({ categories }: SpendingChartProps) {
+  const colors = useChartColors();
   const data = categories
     .filter(c => SPENDING_CATEGORIES.includes(c.name) && c.total !== 0)
     .map((c, idx) => ({
@@ -106,19 +119,19 @@ export function CategoryBarChart({ categories }: SpendingChartProps) {
   const maxAmount = Math.max(...data.map(d => d.amount), 1);
 
   return (
-    <Card className="bg-zinc-900 border-zinc-800">
+    <Card className="bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800">
       <CardHeader className="pb-2">
-        <CardTitle className="text-sm font-medium text-zinc-400">Category Totals</CardTitle>
+        <CardTitle className="text-sm font-medium text-zinc-600 dark:text-zinc-400">Category Totals</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="space-y-3">
           {data.map(item => (
             <div key={item.name}>
               <div className="flex items-center justify-between mb-1">
-                <span className="text-xs text-zinc-400">{item.name}</span>
-                <span className="text-xs font-medium text-white">{formatCurrency(item.amount)}</span>
+                <span className="text-xs text-zinc-600 dark:text-zinc-400">{item.name}</span>
+                <span className="text-xs font-medium text-zinc-900 dark:text-white">{formatCurrency(item.amount)}</span>
               </div>
-              <div className="w-full bg-zinc-800 rounded-full h-2">
+              <div className={`w-full rounded-full h-2 ${colors.barTrack}`}>
                 <div
                   className="h-2 rounded-full transition-all duration-500"
                   style={{

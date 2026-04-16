@@ -4,6 +4,7 @@ import { AppShell } from '../AppShell';
 import { useAuth } from '@/lib/hooks/useAuth';
 import { useTransactions } from '@/lib/hooks/useTransactions';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useTheme } from '@/components/layout/ThemeProvider';
 import {
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer,
   LineChart, Line, CartesianGrid, Legend,
@@ -32,6 +33,8 @@ function formatCurrency(amount: number): string {
 
 function TrendsContent() {
   const { user } = useAuth();
+  const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme === 'dark';
 
   // Fetch all transactions (no month filter)
   const { categoriesWithTransactions, transactions, loading } = useTransactions(user?.id, null);
@@ -91,7 +94,7 @@ function TrendsContent() {
   if (sortedMonths.length === 0) {
     return (
       <div className="space-y-6 max-w-6xl">
-        <h2 className="text-lg font-bold text-white">Trends</h2>
+        <h2 className="text-lg font-bold text-zinc-900 dark:text-white">Trends</h2>
         <div className="text-center py-12 text-zinc-500">
           <p className="text-sm">No data yet.</p>
           <p className="text-xs mt-1">Import your CSV to see spending trends.</p>
@@ -100,33 +103,37 @@ function TrendsContent() {
     );
   }
 
+  const gridStroke = isDark ? '#27272a' : '#e4e4e7';
+  const tickFill = isDark ? '#a1a1aa' : '#52525b';
+  const legendColor = isDark ? '#a1a1aa' : '#52525b';
+
   const tooltipStyle = {
     contentStyle: {
-      background: '#18181b',
-      border: '1px solid #3f3f46',
+      background: isDark ? '#18181b' : '#ffffff',
+      border: `1px solid ${isDark ? '#3f3f46' : '#d4d4d8'}`,
       borderRadius: '8px',
-      color: '#fff',
+      color: isDark ? '#fff' : '#09090b',
       fontSize: '12px',
     },
   };
 
   return (
     <div className="space-y-6 max-w-6xl">
-      <h2 className="text-lg font-bold text-white">Trends</h2>
+      <h2 className="text-lg font-bold text-zinc-900 dark:text-white">Trends</h2>
 
       {/* Income vs Expenses */}
-      <Card className="bg-zinc-900 border-zinc-800">
+      <Card className="bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800">
         <CardHeader className="pb-2">
-          <CardTitle className="text-sm font-medium text-zinc-400">Income vs Expenses</CardTitle>
+          <CardTitle className="text-sm font-medium text-zinc-600 dark:text-zinc-400">Income vs Expenses</CardTitle>
         </CardHeader>
         <CardContent>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={incomeVsExpenses}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#27272a" />
-              <XAxis dataKey="month" tick={{ fill: '#a1a1aa', fontSize: 12 }} />
-              <YAxis tick={{ fill: '#a1a1aa', fontSize: 12 }} tickFormatter={v => `$${v}`} />
+              <CartesianGrid strokeDasharray="3 3" stroke={gridStroke} />
+              <XAxis dataKey="month" tick={{ fill: tickFill, fontSize: 12 }} />
+              <YAxis tick={{ fill: tickFill, fontSize: 12 }} tickFormatter={v => `$${v}`} />
               <Tooltip {...tooltipStyle} formatter={(value) => formatCurrency(Number(value))} />
-              <Legend wrapperStyle={{ color: '#a1a1aa', fontSize: '12px' }} />
+              <Legend wrapperStyle={{ color: legendColor, fontSize: '12px' }} />
               <Line type="monotone" dataKey="Income" stroke="#22c55e" strokeWidth={2} dot={{ r: 4 }} />
               <Line type="monotone" dataKey="Expenses" stroke="#ef4444" strokeWidth={2} dot={{ r: 4 }} />
             </LineChart>
@@ -135,18 +142,18 @@ function TrendsContent() {
       </Card>
 
       {/* Category Breakdown */}
-      <Card className="bg-zinc-900 border-zinc-800">
+      <Card className="bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800">
         <CardHeader className="pb-2">
-          <CardTitle className="text-sm font-medium text-zinc-400">Spending by Category</CardTitle>
+          <CardTitle className="text-sm font-medium text-zinc-600 dark:text-zinc-400">Spending by Category</CardTitle>
         </CardHeader>
         <CardContent>
           <ResponsiveContainer width="100%" height={350}>
             <BarChart data={categoryData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#27272a" />
-              <XAxis dataKey="month" tick={{ fill: '#a1a1aa', fontSize: 12 }} />
-              <YAxis tick={{ fill: '#a1a1aa', fontSize: 12 }} tickFormatter={v => `$${v}`} />
+              <CartesianGrid strokeDasharray="3 3" stroke={gridStroke} />
+              <XAxis dataKey="month" tick={{ fill: tickFill, fontSize: 12 }} />
+              <YAxis tick={{ fill: tickFill, fontSize: 12 }} tickFormatter={v => `$${v}`} />
               <Tooltip {...tooltipStyle} formatter={(value) => formatCurrency(Number(value))} />
-              <Legend wrapperStyle={{ color: '#a1a1aa', fontSize: '12px' }} />
+              <Legend wrapperStyle={{ color: legendColor, fontSize: '12px' }} />
               {spendingCategories.map(cat => (
                 <Bar key={cat} dataKey={cat} fill={CATEGORY_COLORS[cat] || '#6b7280'} />
               ))}

@@ -30,9 +30,9 @@ export function CsvExporter({ year, month, categories }: CsvExporterProps) {
   };
 
   return (
-    <Card className="bg-zinc-900 border-zinc-800">
+    <Card className="bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800">
       <CardHeader>
-        <CardTitle className="text-sm font-medium text-zinc-400 flex items-center gap-2">
+        <CardTitle className="text-sm font-medium text-zinc-600 dark:text-zinc-400 flex items-center gap-2">
           <Download className="w-4 h-4" />
           Export CSV
         </CardTitle>
@@ -41,7 +41,7 @@ export function CsvExporter({ year, month, categories }: CsvExporterProps) {
         <p className="text-xs text-zinc-500 mb-3">
           Download the current month&apos;s data as a CSV file.
         </p>
-        <Button onClick={handleExport} variant="outline" className="w-full border-zinc-700">
+        <Button onClick={handleExport} variant="outline" className="w-full border-zinc-300 dark:border-zinc-700">
           <Download className="w-4 h-4 mr-2" />
           Export Current Month
         </Button>

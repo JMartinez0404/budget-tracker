@@ -32,12 +32,12 @@ function DashboardContent() {
   return (
     <div className="space-y-6 max-w-6xl">
       <div className="flex items-center justify-between flex-wrap gap-4">
-        <h2 className="text-lg font-bold text-white">Dashboard</h2>
+        <h2 className="text-lg font-bold text-zinc-900 dark:text-white">Dashboard</h2>
         <MonthPicker year={year} month={month} onChange={handleMonthChange} />
       </div>
 
       {availableMonths.length > 0 && (
-        <div className="text-xs text-zinc-600">
+        <div className="text-xs text-zinc-500 dark:text-zinc-600">
           Data available for: {availableMonths.map(m => {
             const parts = m.split('-');
             const mo = parseInt(parts[1]);

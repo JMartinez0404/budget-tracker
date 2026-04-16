@@ -27,14 +27,14 @@ export function MonthPicker({ year, month, onChange }: MonthPickerProps) {
 
   return (
     <div className="flex items-center gap-3">
-      <Button variant="ghost" size="icon" onClick={prev} className="text-zinc-400 hover:text-white">
+      <Button variant="ghost" size="icon" onClick={prev} className="text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white">
         <ChevronLeft className="w-5 h-5" />
       </Button>
       <div className="text-center min-w-[160px]">
-        <div className="text-lg font-bold text-white">{MONTH_NAMES[month - 1]}</div>
+        <div className="text-lg font-bold text-zinc-900 dark:text-white">{MONTH_NAMES[month - 1]}</div>
         <div className="text-xs text-zinc-500">{year}</div>
       </div>
-      <Button variant="ghost" size="icon" onClick={next} className="text-zinc-400 hover:text-white">
+      <Button variant="ghost" size="icon" onClick={next} className="text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white">
         <ChevronRight className="w-5 h-5" />
       </Button>
     </div>

@@ -73,19 +73,19 @@ export function RebuildMonth({
   };
 
   return (
-    <Card className="bg-zinc-900 border-zinc-800">
+    <Card className="bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800">
       <CardHeader className="pb-2">
-        <CardTitle className="text-sm font-medium text-zinc-400 flex items-center gap-2">
+        <CardTitle className="text-sm font-medium text-zinc-600 dark:text-zinc-400 flex items-center gap-2">
           <RefreshCw className="w-4 h-4" />
           Rebuild Month from Previous
         </CardTitle>
       </CardHeader>
       <CardContent>
         <p className="text-xs text-zinc-500 mb-3">
-          Add carryovers to <span className="text-white font-medium">{MONTH_NAMES[targetMonth]} {targetYear}</span> from{' '}
-          <span className="text-white font-medium">{MONTH_NAMES[sourceMonth]} {sourceYear}</span>:
+          Add carryovers to <span className="text-zinc-900 dark:text-white font-medium">{MONTH_NAMES[targetMonth]} {targetYear}</span> from{' '}
+          <span className="text-zinc-900 dark:text-white font-medium">{MONTH_NAMES[sourceMonth]} {sourceYear}</span>:
           buffer as income, fun money leftover, and any missing recurring items.
-          Your existing expenses <span className="text-emerald-400">won&apos;t be touched</span>.
+          Your existing expenses <span className="text-emerald-600 dark:text-emerald-400">won&apos;t be touched</span>.
         </p>
 
         <Button onClick={handleRebuild} disabled={loading} variant="outline" className="w-full">
@@ -94,13 +94,13 @@ export function RebuildMonth({
         </Button>
 
         {result && (
-          <div className="flex items-start gap-2 text-emerald-400 text-xs mt-3">
+          <div className="flex items-start gap-2 text-emerald-600 dark:text-emerald-400 text-xs mt-3">
             <Check className="w-4 h-4 flex-shrink-0 mt-0.5" />
             {result}
           </div>
         )}
         {error && (
-          <div className="flex items-start gap-2 text-red-400 text-xs mt-3">
+          <div className="flex items-start gap-2 text-red-600 dark:text-red-400 text-xs mt-3">
             <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5" />
             {error}
           </div>

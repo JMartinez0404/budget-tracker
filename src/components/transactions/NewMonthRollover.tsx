@@ -183,9 +183,9 @@ export function NewMonthRollover({
 
   if (success) {
     return (
-      <Card className="bg-zinc-900 border-zinc-800">
+      <Card className="bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800">
         <CardContent className="p-4">
-          <div className="flex items-center gap-2 text-emerald-400 text-sm">
+          <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 text-sm">
             <Check className="w-4 h-4" />
             {monthNames[next.month]} {next.year} created! Navigate to it to review and edit.
           </div>
@@ -195,32 +195,32 @@ export function NewMonthRollover({
   }
 
   return (
-    <Card className="bg-zinc-900 border-zinc-800">
+    <Card className="bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800">
       <CardHeader className="pb-2">
-        <CardTitle className="text-sm font-medium text-zinc-400 flex items-center gap-2">
+        <CardTitle className="text-sm font-medium text-zinc-600 dark:text-zinc-400 flex items-center gap-2">
           <Copy className="w-4 h-4" />
           Start Next Month
         </CardTitle>
       </CardHeader>
       <CardContent>
         <p className="text-xs text-zinc-500 mb-3">
-          Copy recurring items to <span className="text-white font-medium">{monthNames[next.month]} {next.year}</span> with updated dates.
+          Copy recurring items to <span className="text-zinc-900 dark:text-white font-medium">{monthNames[next.month]} {next.year}</span> with updated dates.
           You can edit everything after.
         </p>
 
         <div className="space-y-1 mb-4">
           {rolloverCats.map(cat => (
             <div key={cat.id} className="flex items-center justify-between text-xs">
-              <span className="text-zinc-400">{cat.name}</span>
+              <span className="text-zinc-600 dark:text-zinc-400">{cat.name}</span>
               <span className="text-zinc-500">
                 {cat.transactions.length} item{cat.transactions.length !== 1 ? 's' : ''}
                 {cat.name === 'Savings' && cat.transactions.length === 0 && ' (defaults ~$1,500)'}
               </span>
             </div>
           ))}
-          <div className="border-t border-zinc-800 pt-1 mt-2 flex items-center justify-between text-xs">
-            <span className="text-zinc-300 font-medium">Total</span>
-            <span className="text-zinc-300">{totalTxns} transactions</span>
+          <div className="border-t border-zinc-200 dark:border-zinc-800 pt-1 mt-2 flex items-center justify-between text-xs">
+            <span className="text-zinc-700 dark:text-zinc-300 font-medium">Total</span>
+            <span className="text-zinc-700 dark:text-zinc-300">{totalTxns} transactions</span>
           </div>
         </div>
 
@@ -230,7 +230,7 @@ export function NewMonthRollover({
         </Button>
 
         {error && (
-          <div className="flex items-start gap-2 text-red-400 text-xs mt-3">
+          <div className="flex items-start gap-2 text-red-600 dark:text-red-400 text-xs mt-3">
             <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5" />
             {error}
           </div>

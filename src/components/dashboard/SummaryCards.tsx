@@ -43,20 +43,20 @@ export function SummaryCards({ categories }: SummaryCardsProps) {
   );
 
   const cards = [
-    { label: 'Income', value: income, icon: DollarSign, color: 'text-emerald-400' },
-    { label: 'Bills', value: bills, icon: CreditCard, color: 'text-red-400' },
-    { label: 'Groceries', value: groceries, icon: ShoppingCart, color: 'text-amber-400' },
-    { label: 'Restaurants', value: restaurants, icon: UtensilsCrossed, color: 'text-orange-400' },
-    { label: 'Gas', value: gas, icon: Fuel, color: 'text-cyan-400' },
-    { label: 'Savings', value: savings, icon: PiggyBank, color: 'text-blue-400' },
-    { label: 'Retirement', value: vanguard, icon: TrendingDown, color: 'text-purple-400' },
-    { label: 'Total Spent', value: -totalExpenses, icon: CreditCard, color: 'text-red-400' },
+    { label: 'Income', value: income, icon: DollarSign, color: 'text-emerald-600 dark:text-emerald-400' },
+    { label: 'Bills', value: bills, icon: CreditCard, color: 'text-red-600 dark:text-red-400' },
+    { label: 'Groceries', value: groceries, icon: ShoppingCart, color: 'text-amber-600 dark:text-amber-400' },
+    { label: 'Restaurants', value: restaurants, icon: UtensilsCrossed, color: 'text-orange-600 dark:text-orange-400' },
+    { label: 'Gas', value: gas, icon: Fuel, color: 'text-cyan-600 dark:text-cyan-400' },
+    { label: 'Savings', value: savings, icon: PiggyBank, color: 'text-blue-600 dark:text-blue-400' },
+    { label: 'Retirement', value: vanguard, icon: TrendingDown, color: 'text-purple-600 dark:text-purple-400' },
+    { label: 'Total Spent', value: -totalExpenses, icon: CreditCard, color: 'text-red-600 dark:text-red-400' },
   ];
 
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
       {cards.map(card => (
-        <Card key={card.label} className="bg-zinc-900 border-zinc-800">
+        <Card key={card.label} className="bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800">
           <CardContent className="p-4">
             <div className="flex items-center justify-between mb-2">
               <span className="text-xs text-zinc-500">{card.label}</span>

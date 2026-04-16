@@ -134,9 +134,9 @@ export function CsvImporter({ userId, onComplete }: CsvImporterProps) {
   };
 
   return (
-    <Card className="bg-zinc-900 border-zinc-800">
+    <Card className="bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800">
       <CardHeader>
-        <CardTitle className="text-sm font-medium text-zinc-400 flex items-center gap-2">
+        <CardTitle className="text-sm font-medium text-zinc-600 dark:text-zinc-400 flex items-center gap-2">
           <Upload className="w-4 h-4" />
           Import CSV
         </CardTitle>
@@ -147,9 +147,9 @@ export function CsvImporter({ userId, onComplete }: CsvImporterProps) {
             <p className="text-xs text-zinc-500">
               Upload your budget spreadsheet CSV to import historical data.
             </p>
-            <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-zinc-700 rounded-lg cursor-pointer hover:border-zinc-600 transition-colors">
-              <FileText className="w-8 h-8 text-zinc-600 mb-2" />
-              <span className="text-sm text-zinc-400">Click to select CSV file</span>
+            <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-zinc-300 dark:border-zinc-700 rounded-lg cursor-pointer hover:border-zinc-400 dark:hover:border-zinc-600 transition-colors">
+              <FileText className="w-8 h-8 text-zinc-400 dark:text-zinc-600 mb-2" />
+              <span className="text-sm text-zinc-600 dark:text-zinc-400">Click to select CSV file</span>
               <input
                 type="file"
                 accept=".csv"
@@ -162,20 +162,20 @@ export function CsvImporter({ userId, onComplete }: CsvImporterProps) {
 
         {parsedData && (
           <div className="space-y-4">
-            <div className="text-sm text-zinc-300 font-medium">
+            <div className="text-sm text-zinc-700 dark:text-zinc-300 font-medium">
               Preview: {parsedData.length} month(s) found
             </div>
             <div className="space-y-2 max-h-64 overflow-y-auto">
               {parsedData.map(month => (
-                <div key={`${month.year}-${month.month}`} className="bg-zinc-800 rounded-lg p-3">
-                  <div className="text-sm font-medium text-white mb-2">
+                <div key={`${month.year}-${month.month}`} className="bg-zinc-100 dark:bg-zinc-800 rounded-lg p-3">
+                  <div className="text-sm font-medium text-zinc-900 dark:text-white mb-2">
                     {month.label} {month.year}
                   </div>
                   <div className="grid grid-cols-2 gap-1">
                     {month.categories.map(cat => (
                       <div key={cat.name} className="flex justify-between text-xs">
-                        <span className="text-zinc-400">{cat.name}</span>
-                        <span className={cat.total >= 0 ? 'text-emerald-400' : 'text-red-400'}>
+                        <span className="text-zinc-600 dark:text-zinc-400">{cat.name}</span>
+                        <span className={cat.total >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-600 dark:text-red-400'}>
                           {formatCurrency(cat.total)} ({cat.transactions.length})
                         </span>
                       </div>
@@ -188,7 +188,7 @@ export function CsvImporter({ userId, onComplete }: CsvImporterProps) {
               <Button onClick={handleImport} disabled={importing} className="flex-1">
                 {importing ? 'Importing...' : 'Import Data'}
               </Button>
-              <Button variant="outline" onClick={() => setParsedData(null)} className="border-zinc-700">
+              <Button variant="outline" onClick={() => setParsedData(null)} className="border-zinc-300 dark:border-zinc-700">
                 Cancel
               </Button>
             </div>
@@ -196,14 +196,14 @@ export function CsvImporter({ userId, onComplete }: CsvImporterProps) {
         )}
 
         {success && (
-          <div className="flex items-center gap-2 text-emerald-400 text-sm">
+          <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 text-sm">
             <Check className="w-4 h-4" />
             Import complete!
           </div>
         )}
 
         {error && (
-          <div className="flex items-start gap-2 text-red-400 text-xs mt-3">
+          <div className="flex items-start gap-2 text-red-600 dark:text-red-400 text-xs mt-3">
             <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5" />
             {error}
           </div>

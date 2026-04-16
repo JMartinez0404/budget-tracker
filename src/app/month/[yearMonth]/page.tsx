@@ -56,23 +56,23 @@ function MonthlyContent({ yearMonth }: { yearMonth: string }) {
   return (
     <div className="space-y-6 max-w-4xl">
       <div className="flex items-center justify-between flex-wrap gap-4">
-        <h2 className="text-lg font-bold text-white">Monthly View</h2>
+        <h2 className="text-lg font-bold text-zinc-900 dark:text-white">Monthly View</h2>
         <MonthPicker year={year} month={month} onChange={handleMonthChange} />
       </div>
 
       {/* Summary bar */}
-      <div className="flex items-center gap-6 bg-zinc-900 rounded-lg p-4 border border-zinc-800">
+      <div className="flex items-center gap-6 bg-white dark:bg-zinc-900 rounded-lg p-4 border border-zinc-200 dark:border-zinc-800">
         <div>
           <div className="text-xs text-zinc-500">Income</div>
-          <div className="text-sm font-bold text-emerald-400">{formatCurrency(totalIncome)}</div>
+          <div className="text-sm font-bold text-emerald-600 dark:text-emerald-400">{formatCurrency(totalIncome)}</div>
         </div>
         <div>
           <div className="text-xs text-zinc-500">Expenses</div>
-          <div className="text-sm font-bold text-red-400">{formatCurrency(Math.abs(totalExpenses))}</div>
+          <div className="text-sm font-bold text-red-600 dark:text-red-400">{formatCurrency(Math.abs(totalExpenses))}</div>
         </div>
         <div>
           <div className="text-xs text-zinc-500">Net</div>
-          <div className={`text-sm font-bold ${totalIncome + totalExpenses >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+          <div className={`text-sm font-bold ${totalIncome + totalExpenses >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-600 dark:text-red-400'}`}>
             {formatCurrency(totalIncome + totalExpenses)}
           </div>
         </div>

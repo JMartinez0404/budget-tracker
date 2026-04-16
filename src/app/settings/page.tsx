@@ -29,7 +29,7 @@ function SettingsContent() {
 
   return (
     <div className="space-y-6 max-w-2xl">
-      <h2 className="text-lg font-bold text-white">Settings</h2>
+      <h2 className="text-lg font-bold text-zinc-900 dark:text-white">Settings</h2>
 
       {/* Import/Export */}
       <div className="grid md:grid-cols-2 gap-4">
@@ -38,9 +38,9 @@ function SettingsContent() {
       </div>
 
       {/* Categories */}
-      <Card className="bg-zinc-900 border-zinc-800">
+      <Card className="bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800">
         <CardHeader>
-          <CardTitle className="text-sm font-medium text-zinc-400">Categories</CardTitle>
+          <CardTitle className="text-sm font-medium text-zinc-600 dark:text-zinc-400">Categories</CardTitle>
         </CardHeader>
         <CardContent>
           {categories.length === 0 ? (
@@ -52,22 +52,22 @@ function SettingsContent() {
               {categories.map(cat => (
                 <div
                   key={cat.id}
-                  className="flex items-center justify-between py-2 px-3 rounded bg-zinc-800/50"
+                  className="flex items-center justify-between py-2 px-3 rounded bg-zinc-100 dark:bg-zinc-800/50"
                 >
                   <div>
-                    <span className="text-sm text-white">{cat.name}</span>
+                    <span className="text-sm text-zinc-900 dark:text-white">{cat.name}</span>
                     {cat.notes && (
                       <p className="text-xs text-zinc-500 mt-0.5">{cat.notes}</p>
                     )}
                   </div>
                   <div className="flex items-center gap-2">
                     {cat.is_income && (
-                      <span className="text-xs bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded">
+                      <span className="text-xs bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 px-2 py-0.5 rounded">
                         Income
                       </span>
                     )}
                     {cat.budget_limit && (
-                      <span className="text-xs text-zinc-400">
+                      <span className="text-xs text-zinc-600 dark:text-zinc-400">
                         Limit: ${cat.budget_limit}
                       </span>
                     )}

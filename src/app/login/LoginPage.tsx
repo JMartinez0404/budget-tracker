@@ -31,10 +31,10 @@ export function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-zinc-950 flex items-center justify-center p-4">
-      <Card className="w-full max-w-sm bg-zinc-900 border-zinc-800">
+    <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 flex items-center justify-center p-4">
+      <Card className="w-full max-w-sm bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800">
         <CardHeader className="text-center">
-          <CardTitle className="text-xl text-white">Budget Tracker</CardTitle>
+          <CardTitle className="text-xl text-zinc-900 dark:text-white">Budget Tracker</CardTitle>
           <p className="text-xs text-zinc-500 mt-1">
             {isSignUp ? 'Create your account' : 'Sign in to continue'}
           </p>
@@ -42,19 +42,19 @@ export function LoginPage() {
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="email" className="text-zinc-400 text-xs">Email</Label>
+              <Label htmlFor="email" className="text-zinc-600 dark:text-zinc-400 text-xs">Email</Label>
               <Input
                 id="email"
                 type="email"
                 value={email}
                 onChange={e => setEmail(e.target.value)}
                 required
-                className="bg-zinc-800 border-zinc-700 text-white"
+                className="bg-white dark:bg-zinc-800 border-zinc-300 dark:border-zinc-700 text-zinc-900 dark:text-white"
                 placeholder="joel@example.com"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password" className="text-zinc-400 text-xs">Password</Label>
+              <Label htmlFor="password" className="text-zinc-600 dark:text-zinc-400 text-xs">Password</Label>
               <Input
                 id="password"
                 type="password"
@@ -62,12 +62,12 @@ export function LoginPage() {
                 onChange={e => setPassword(e.target.value)}
                 required
                 minLength={6}
-                className="bg-zinc-800 border-zinc-700 text-white"
+                className="bg-white dark:bg-zinc-800 border-zinc-300 dark:border-zinc-700 text-zinc-900 dark:text-white"
                 placeholder="••••••••"
               />
             </div>
             {error && (
-              <p className="text-red-400 text-xs">{error}</p>
+              <p className="text-red-600 dark:text-red-400 text-xs">{error}</p>
             )}
             <Button type="submit" className="w-full" disabled={loading}>
               {loading ? 'Please wait...' : isSignUp ? 'Sign Up' : 'Sign In'}
@@ -75,7 +75,7 @@ export function LoginPage() {
             <Button
               type="button"
               variant="ghost"
-              className="w-full text-zinc-400 text-xs"
+              className="w-full text-zinc-600 dark:text-zinc-400 text-xs"
               onClick={() => { setIsSignUp(!isSignUp); setError(null); }}
             >
               {isSignUp ? 'Already have an account? Sign in' : "Don't have an account? Sign up"}

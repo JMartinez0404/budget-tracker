@@ -55,7 +55,7 @@ export function FunMoneyCard({ categories }: FunMoneyCardProps) {
   const ringColor = leftoverTotal >= 0
     ? pct > 80 ? 'text-amber-500' : 'text-emerald-500'
     : 'text-red-500';
-  const bgRingColor = 'text-zinc-800';
+  const bgRingColor = 'text-zinc-200 dark:text-zinc-800';
 
   // SVG ring dimensions
   const radius = 40;
@@ -63,9 +63,9 @@ export function FunMoneyCard({ categories }: FunMoneyCardProps) {
   const offset = circumference - (pct / 100) * circumference;
 
   return (
-    <Card className="bg-zinc-900 border-zinc-800">
+    <Card className="bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800">
       <CardHeader className="pb-2">
-        <CardTitle className="text-sm font-medium text-zinc-400">Fun Money</CardTitle>
+        <CardTitle className="text-sm font-medium text-zinc-600 dark:text-zinc-400">Fun Money</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="flex items-center gap-6">
@@ -87,7 +87,7 @@ export function FunMoneyCard({ categories }: FunMoneyCardProps) {
               />
             </svg>
             <div className="absolute inset-0 flex items-center justify-center">
-              <span className="text-sm font-bold text-white">{Math.round(pct)}%</span>
+              <span className="text-sm font-bold text-zinc-900 dark:text-white">{Math.round(pct)}%</span>
             </div>
           </div>
 
@@ -95,15 +95,15 @@ export function FunMoneyCard({ categories }: FunMoneyCardProps) {
           <div className="flex-1 space-y-2">
             <div>
               <div className="text-xs text-zinc-500">Available</div>
-              <div className="text-lg font-bold text-white">{formatCurrency(availableTotal)}</div>
+              <div className="text-lg font-bold text-zinc-900 dark:text-white">{formatCurrency(availableTotal)}</div>
             </div>
             <div>
               <div className="text-xs text-zinc-500">Spent</div>
-              <div className="text-lg font-bold text-red-400">{formatCurrency(spentTotal)}</div>
+              <div className="text-lg font-bold text-red-600 dark:text-red-400">{formatCurrency(spentTotal)}</div>
             </div>
             <div>
               <div className="text-xs text-zinc-500">Remaining</div>
-              <div className={`text-lg font-bold ${leftoverTotal >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+              <div className={`text-lg font-bold ${leftoverTotal >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-600 dark:text-red-400'}`}>
                 {formatCurrency(leftoverTotal)}
               </div>
             </div>

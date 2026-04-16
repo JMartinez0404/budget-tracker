@@ -120,22 +120,22 @@ export function TransactionTable({
         return (
           <div
             key={cat.id}
-            className="bg-zinc-900 border border-zinc-800 rounded-lg overflow-hidden"
+            className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg overflow-hidden"
           >
             {/* Category header */}
             <button
               onClick={() => toggleCollapse(cat.id)}
-              className="w-full flex items-center justify-between px-4 py-3 hover:bg-zinc-800/50 transition-colors"
+              className="w-full flex items-center justify-between px-4 py-3 hover:bg-zinc-100 dark:hover:bg-zinc-800/50 transition-colors"
             >
               <div className="flex items-center gap-2">
                 {isCollapsed
                   ? <ChevronRight className="w-4 h-4 text-zinc-500" />
                   : <ChevronDown className="w-4 h-4 text-zinc-500" />
                 }
-                <span className="text-sm font-medium text-white">{cat.name}</span>
+                <span className="text-sm font-medium text-zinc-900 dark:text-white">{cat.name}</span>
                 <span className="text-xs text-zinc-500">({cat.transactions.length})</span>
               </div>
-              <span className={`text-sm font-bold ${cat.is_income ? 'text-emerald-400' : cat.total < 0 ? 'text-red-400' : 'text-zinc-300'}`}>
+              <span className={`text-sm font-bold ${cat.is_income ? 'text-emerald-600 dark:text-emerald-400' : cat.total < 0 ? 'text-red-600 dark:text-red-400' : 'text-zinc-700 dark:text-zinc-300'}`}>
                 {formatCurrency(cat.total)}
               </span>
             </button>
@@ -150,40 +150,40 @@ export function TransactionTable({
                         <Input
                           value={editing.name}
                           onChange={e => setEditing(s => ({ ...s, name: e.target.value }))}
-                          className="h-8 bg-zinc-800 border-zinc-700 text-white text-xs flex-1"
+                          className="h-8 bg-white dark:bg-zinc-800 border-zinc-300 dark:border-zinc-700 text-zinc-900 dark:text-white text-xs flex-1"
                           placeholder="Name"
                         />
                         <Input
                           type="date"
                           value={editing.date}
                           onChange={e => setEditing(s => ({ ...s, date: e.target.value }))}
-                          className="h-8 bg-zinc-800 border-zinc-700 text-white text-xs w-32"
+                          className="h-8 bg-white dark:bg-zinc-800 border-zinc-300 dark:border-zinc-700 text-zinc-900 dark:text-white text-xs w-32"
                         />
                         <Input
                           type="number"
                           step="0.01"
                           value={editing.amount}
                           onChange={e => setEditing(s => ({ ...s, amount: e.target.value }))}
-                          className="h-8 bg-zinc-800 border-zinc-700 text-white text-xs w-24"
+                          className="h-8 bg-white dark:bg-zinc-800 border-zinc-300 dark:border-zinc-700 text-zinc-900 dark:text-white text-xs w-24"
                           placeholder="Amount"
                         />
-                        <Button variant="ghost" size="icon" onClick={saveEdit} className="h-8 w-8 text-emerald-400">
+                        <Button variant="ghost" size="icon" onClick={saveEdit} className="h-8 w-8 text-emerald-600 dark:text-emerald-400">
                           <Check className="w-3 h-3" />
                         </Button>
-                        <Button variant="ghost" size="icon" onClick={cancelEdit} className="h-8 w-8 text-zinc-400">
+                        <Button variant="ghost" size="icon" onClick={cancelEdit} className="h-8 w-8 text-zinc-600 dark:text-zinc-400">
                           <X className="w-3 h-3" />
                         </Button>
                       </div>
                     ) : (
-                      <div className="flex items-center justify-between py-1.5 px-2 rounded hover:bg-zinc-800/50">
+                      <div className="flex items-center justify-between py-1.5 px-2 rounded hover:bg-zinc-100 dark:hover:bg-zinc-800/50">
                         <div className="flex items-center gap-3 flex-1 min-w-0">
                           <span className="text-xs text-zinc-500 w-16 flex-shrink-0">
                             {formatDate(txn.transaction_date)}
                           </span>
-                          <span className="text-sm text-zinc-300 truncate">{txn.name}</span>
+                          <span className="text-sm text-zinc-700 dark:text-zinc-300 truncate">{txn.name}</span>
                         </div>
                         <div className="flex items-center gap-2">
-                          <span className={`text-sm font-medium ${txn.amount >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                          <span className={`text-sm font-medium ${txn.amount >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-600 dark:text-red-400'}`}>
                             {formatCurrency(txn.amount)}
                           </span>
                           <div className="md:opacity-0 md:group-hover:opacity-100 flex gap-1 transition-opacity">
@@ -191,7 +191,7 @@ export function TransactionTable({
                               variant="ghost"
                               size="icon"
                               onClick={() => startEdit(txn)}
-                              className="h-6 w-6 text-zinc-500 hover:text-white"
+                              className="h-6 w-6 text-zinc-500 hover:text-zinc-900 dark:hover:text-white"
                             >
                               <Pencil className="w-3 h-3" />
                             </Button>
@@ -199,7 +199,7 @@ export function TransactionTable({
                               variant="ghost"
                               size="icon"
                               onClick={() => onDelete(txn.id)}
-                              className="h-6 w-6 text-zinc-500 hover:text-red-400"
+                              className="h-6 w-6 text-zinc-500 hover:text-red-600 dark:hover:text-red-400"
                             >
                               <Trash2 className="w-3 h-3" />
                             </Button>
@@ -216,7 +216,7 @@ export function TransactionTable({
                     <Input
                       value={adding.name}
                       onChange={e => setAdding(s => ({ ...s, name: e.target.value }))}
-                      className="h-8 bg-zinc-800 border-zinc-700 text-white text-xs flex-1"
+                      className="h-8 bg-white dark:bg-zinc-800 border-zinc-300 dark:border-zinc-700 text-zinc-900 dark:text-white text-xs flex-1"
                       placeholder="Name"
                       autoFocus
                     />
@@ -224,20 +224,20 @@ export function TransactionTable({
                       type="date"
                       value={adding.date}
                       onChange={e => setAdding(s => ({ ...s, date: e.target.value }))}
-                      className="h-8 bg-zinc-800 border-zinc-700 text-white text-xs w-32"
+                      className="h-8 bg-white dark:bg-zinc-800 border-zinc-300 dark:border-zinc-700 text-zinc-900 dark:text-white text-xs w-32"
                     />
                     <Input
                       type="number"
                       step="0.01"
                       value={adding.amount}
                       onChange={e => setAdding(s => ({ ...s, amount: e.target.value }))}
-                      className="h-8 bg-zinc-800 border-zinc-700 text-white text-xs w-24"
+                      className="h-8 bg-white dark:bg-zinc-800 border-zinc-300 dark:border-zinc-700 text-zinc-900 dark:text-white text-xs w-24"
                       placeholder="-50.00"
                     />
-                    <Button variant="ghost" size="icon" onClick={saveAdd} className="h-8 w-8 text-emerald-400">
+                    <Button variant="ghost" size="icon" onClick={saveAdd} className="h-8 w-8 text-emerald-600 dark:text-emerald-400">
                       <Check className="w-3 h-3" />
                     </Button>
-                    <Button variant="ghost" size="icon" onClick={cancelAdd} className="h-8 w-8 text-zinc-400">
+                    <Button variant="ghost" size="icon" onClick={cancelAdd} className="h-8 w-8 text-zinc-600 dark:text-zinc-400">
                       <X className="w-3 h-3" />
                     </Button>
                   </div>
@@ -245,7 +245,7 @@ export function TransactionTable({
                   <Button
                     variant="ghost"
                     onClick={() => startAdd(cat.id)}
-                    className="w-full justify-start text-zinc-500 hover:text-white text-xs mt-1 h-8"
+                    className="w-full justify-start text-zinc-500 hover:text-zinc-900 dark:hover:text-white text-xs mt-1 h-8"
                   >
                     <Plus className="w-3 h-3 mr-2" />
                     Add transaction
