@@ -146,33 +146,35 @@ export function TransactionTable({
                 {cat.transactions.map(txn => (
                   <div key={txn.id} className="group">
                     {editing.id === txn.id ? (
-                      <div className="flex items-center gap-2 py-1">
+                      <div className="flex flex-col sm:flex-row sm:items-center gap-2 py-1">
                         <Input
                           value={editing.name}
                           onChange={e => setEditing(s => ({ ...s, name: e.target.value }))}
-                          className="h-8 bg-white dark:bg-zinc-800 border-zinc-300 dark:border-zinc-700 text-zinc-900 dark:text-white text-xs flex-1"
+                          className="h-8 bg-white dark:bg-zinc-800 border-zinc-300 dark:border-zinc-700 text-zinc-900 dark:text-white text-xs w-full sm:flex-1"
                           placeholder="Name"
                         />
-                        <Input
-                          type="date"
-                          value={editing.date}
-                          onChange={e => setEditing(s => ({ ...s, date: e.target.value }))}
-                          className="h-8 bg-white dark:bg-zinc-800 border-zinc-300 dark:border-zinc-700 text-zinc-900 dark:text-white text-xs w-32"
-                        />
-                        <Input
-                          type="number"
-                          step="0.01"
-                          value={editing.amount}
-                          onChange={e => setEditing(s => ({ ...s, amount: e.target.value }))}
-                          className="h-8 bg-white dark:bg-zinc-800 border-zinc-300 dark:border-zinc-700 text-zinc-900 dark:text-white text-xs w-24"
-                          placeholder="Amount"
-                        />
-                        <Button variant="ghost" size="icon" onClick={saveEdit} className="h-8 w-8 text-emerald-600 dark:text-emerald-400">
-                          <Check className="w-3 h-3" />
-                        </Button>
-                        <Button variant="ghost" size="icon" onClick={cancelEdit} className="h-8 w-8 text-zinc-600 dark:text-zinc-400">
-                          <X className="w-3 h-3" />
-                        </Button>
+                        <div className="flex items-center gap-2">
+                          <Input
+                            type="date"
+                            value={editing.date}
+                            onChange={e => setEditing(s => ({ ...s, date: e.target.value }))}
+                            className="h-8 bg-white dark:bg-zinc-800 border-zinc-300 dark:border-zinc-700 text-zinc-900 dark:text-white text-xs flex-1 sm:w-32 sm:flex-none"
+                          />
+                          <Input
+                            type="number"
+                            step="0.01"
+                            value={editing.amount}
+                            onChange={e => setEditing(s => ({ ...s, amount: e.target.value }))}
+                            className="h-8 bg-white dark:bg-zinc-800 border-zinc-300 dark:border-zinc-700 text-zinc-900 dark:text-white text-xs w-24"
+                            placeholder="Amount"
+                          />
+                          <Button variant="ghost" size="icon" onClick={saveEdit} className="h-8 w-8 text-emerald-600 dark:text-emerald-400">
+                            <Check className="w-3 h-3" />
+                          </Button>
+                          <Button variant="ghost" size="icon" onClick={cancelEdit} className="h-8 w-8 text-zinc-600 dark:text-zinc-400">
+                            <X className="w-3 h-3" />
+                          </Button>
+                        </div>
                       </div>
                     ) : (
                       <div className="flex items-center justify-between py-1.5 px-2 rounded hover:bg-zinc-100 dark:hover:bg-zinc-800/50">
@@ -212,34 +214,36 @@ export function TransactionTable({
 
                 {/* Add new transaction */}
                 {adding.categoryId === cat.id ? (
-                  <div className="flex items-center gap-2 py-1 mt-2">
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-2 py-1 mt-2">
                     <Input
                       value={adding.name}
                       onChange={e => setAdding(s => ({ ...s, name: e.target.value }))}
-                      className="h-8 bg-white dark:bg-zinc-800 border-zinc-300 dark:border-zinc-700 text-zinc-900 dark:text-white text-xs flex-1"
+                      className="h-8 bg-white dark:bg-zinc-800 border-zinc-300 dark:border-zinc-700 text-zinc-900 dark:text-white text-xs w-full sm:flex-1"
                       placeholder="Name"
                       autoFocus
                     />
-                    <Input
-                      type="date"
-                      value={adding.date}
-                      onChange={e => setAdding(s => ({ ...s, date: e.target.value }))}
-                      className="h-8 bg-white dark:bg-zinc-800 border-zinc-300 dark:border-zinc-700 text-zinc-900 dark:text-white text-xs w-32"
-                    />
-                    <Input
-                      type="number"
-                      step="0.01"
-                      value={adding.amount}
-                      onChange={e => setAdding(s => ({ ...s, amount: e.target.value }))}
-                      className="h-8 bg-white dark:bg-zinc-800 border-zinc-300 dark:border-zinc-700 text-zinc-900 dark:text-white text-xs w-24"
-                      placeholder="-50.00"
-                    />
-                    <Button variant="ghost" size="icon" onClick={saveAdd} className="h-8 w-8 text-emerald-600 dark:text-emerald-400">
-                      <Check className="w-3 h-3" />
-                    </Button>
-                    <Button variant="ghost" size="icon" onClick={cancelAdd} className="h-8 w-8 text-zinc-600 dark:text-zinc-400">
-                      <X className="w-3 h-3" />
-                    </Button>
+                    <div className="flex items-center gap-2">
+                      <Input
+                        type="date"
+                        value={adding.date}
+                        onChange={e => setAdding(s => ({ ...s, date: e.target.value }))}
+                        className="h-8 bg-white dark:bg-zinc-800 border-zinc-300 dark:border-zinc-700 text-zinc-900 dark:text-white text-xs flex-1 sm:w-32 sm:flex-none"
+                      />
+                      <Input
+                        type="number"
+                        step="0.01"
+                        value={adding.amount}
+                        onChange={e => setAdding(s => ({ ...s, amount: e.target.value }))}
+                        className="h-8 bg-white dark:bg-zinc-800 border-zinc-300 dark:border-zinc-700 text-zinc-900 dark:text-white text-xs w-24"
+                        placeholder="-50.00"
+                      />
+                      <Button variant="ghost" size="icon" onClick={saveAdd} className="h-8 w-8 text-emerald-600 dark:text-emerald-400">
+                        <Check className="w-3 h-3" />
+                      </Button>
+                      <Button variant="ghost" size="icon" onClick={cancelAdd} className="h-8 w-8 text-zinc-600 dark:text-zinc-400">
+                        <X className="w-3 h-3" />
+                      </Button>
+                    </div>
                   </div>
                 ) : (
                   <Button
