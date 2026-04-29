@@ -1,10 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import { Trash2, Pencil, Plus, Check, X, ChevronDown, ChevronRight } from 'lucide-react';
+import { Trash2, Pencil, Plus, Check, X, ChevronDown, ChevronRight, Star, LayoutList } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import type { CategoryWithTransactions, Transaction } from '@/lib/types';
+import { useFavorites } from '@/lib/hooks/useFavorites';
+import { BulkAddModal } from './BulkAddModal';
 
 function formatCurrency(amount: number): string {
   return new Intl.NumberFormat('en-US', {
@@ -23,6 +25,7 @@ interface TransactionTableProps {
   month: string;
   userId: string;
   onAdd: (data: Omit<Transaction, 'id' | 'created_at'>) => Promise<{ error: unknown }>;
+  onBulkAdd: (data: Omit<Transaction, 'id' | 'created_at'>[]) => Promise<{ error: unknown }>;
   onUpdate: (id: string, data: Partial<Transaction>) => Promise<{ error: unknown }>;
   onDelete: (id: string) => Promise<{ error: unknown }>;
 }
@@ -46,9 +49,12 @@ export function TransactionTable({
   month,
   userId,
   onAdd,
+  onBulkAdd,
   onUpdate,
   onDelete,
 }: TransactionTableProps) {
+  const today = new Date().toISOString().slice(0, 10);
+
   const [editing, setEditing] = useState<EditingState>({
     id: null, name: '', date: '', amount: '',
   });
@@ -56,6 +62,9 @@ export function TransactionTable({
     categoryId: null, name: '', date: '', amount: '',
   });
   const [collapsed, setCollapsed] = useState<Set<string>>(new Set());
+  const [showBulkAdd, setShowBulkAdd] = useState(false);
+
+  const { favorites, addFavorite, removeFavorite, isFavorite, findFavorite } = useFavorites(userId);
 
   const toggleCollapse = (id: string) => {
     setCollapsed(prev => {
@@ -90,7 +99,6 @@ export function TransactionTable({
   };
 
   const startAdd = (categoryId: string) => {
-    const today = new Date().toISOString().slice(0, 10);
     setAdding({ categoryId, name: '', date: today, amount: '' });
   };
 
@@ -113,10 +121,32 @@ export function TransactionTable({
     cancelAdd();
   };
 
+  const toggleFavorite = (txn: Transaction) => {
+    const fav = findFavorite(txn.name, txn.category_id);
+    if (fav) {
+      removeFavorite(fav.id);
+    } else {
+      addFavorite({ name: txn.name, amount: txn.amount, category_id: txn.category_id });
+    }
+  };
+
   return (
     <div className="space-y-2">
+
+      <div className="flex justify-end">
+        <Button
+          variant="ghost"
+          onClick={() => setShowBulkAdd(true)}
+          className="text-xs h-8 text-zinc-500 hover:text-zinc-900 dark:hover:text-white"
+        >
+          <LayoutList className="w-3 h-3 mr-2" />
+          Bulk Add
+        </Button>
+      </div>
+
       {categories.map(cat => {
         const isCollapsed = collapsed.has(cat.id);
+        const catFavorites = favorites.filter(f => f.category_id === cat.id);
         return (
           <div
             key={cat.id}
@@ -192,6 +222,15 @@ export function TransactionTable({
                             <Button
                               variant="ghost"
                               size="icon"
+                              onClick={() => toggleFavorite(txn)}
+                              className={`h-6 w-6 ${isFavorite(txn.name, txn.category_id) ? 'text-amber-400' : 'text-zinc-400 hover:text-amber-400'}`}
+                              title={isFavorite(txn.name, txn.category_id) ? 'Remove from favorites' : 'Save as favorite'}
+                            >
+                              <Star className="w-3 h-3" fill={isFavorite(txn.name, txn.category_id) ? 'currentColor' : 'none'} />
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="icon"
                               onClick={() => startEdit(txn)}
                               className="h-6 w-6 text-zinc-500 hover:text-zinc-900 dark:hover:text-white"
                             >
@@ -211,6 +250,22 @@ export function TransactionTable({
                     )}
                   </div>
                 ))}
+
+                {/* Favorite chips */}
+                {catFavorites.length > 0 && adding.categoryId !== cat.id && (
+                  <div className="flex flex-wrap gap-1.5 pt-1">
+                    {catFavorites.map(fav => (
+                      <button
+                        key={fav.id}
+                        onClick={() => setAdding({ categoryId: cat.id, name: fav.name, date: today, amount: String(fav.amount) })}
+                        className="inline-flex items-center gap-1 text-xs px-2 py-1 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 hover:bg-amber-50 hover:text-amber-700 dark:hover:bg-amber-900/20 dark:hover:text-amber-400 transition-colors"
+                      >
+                        <Star className="w-2.5 h-2.5 text-amber-400" fill="currentColor" />
+                        {fav.name}
+                      </button>
+                    ))}
+                  </div>
+                )}
 
                 {/* Add new transaction */}
                 {adding.categoryId === cat.id ? (
@@ -260,6 +315,16 @@ export function TransactionTable({
           </div>
         );
       })}
+
+      {showBulkAdd && (
+        <BulkAddModal
+          categories={categories}
+          month={month}
+          userId={userId}
+          onSave={onBulkAdd}
+          onClose={() => setShowBulkAdd(false)}
+        />
+      )}
     </div>
   );
 }

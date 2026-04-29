@@ -32,6 +32,7 @@ function MonthlyContent({ yearMonth }: { yearMonth: string }) {
     categoriesWithTransactions,
     loading,
     addTransaction,
+    addTransactions,
     updateTransaction,
     deleteTransaction,
     refresh,
@@ -95,6 +96,7 @@ function MonthlyContent({ yearMonth }: { yearMonth: string }) {
           month={monthKey}
           userId={user.id}
           onAdd={addTransaction}
+          onBulkAdd={addTransactions}
           onUpdate={updateTransaction}
           onDelete={deleteTransaction}
         />

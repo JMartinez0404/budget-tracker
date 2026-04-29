@@ -54,6 +54,12 @@ export function useTransactions(userId: string | undefined, month: string | null
     return { error };
   };
 
+  const addTransactions = async (data: Omit<Transaction, 'id' | 'created_at'>[]) => {
+    const { error } = await supabase.from('transactions').insert(data);
+    if (!error) await fetchData();
+    return { error };
+  };
+
   const updateTransaction = async (id: string, data: Partial<Transaction>) => {
     const { error } = await supabase.from('transactions').update(data).eq('id', id);
     if (!error) await fetchData();
@@ -72,6 +78,7 @@ export function useTransactions(userId: string | undefined, month: string | null
     categoriesWithTransactions,
     loading,
     addTransaction,
+    addTransactions,
     updateTransaction,
     deleteTransaction,
     refresh: fetchData,
